@@ -7,17 +7,27 @@ from sprint.utils import colored, error
 
 # Credit message
 print(colored(f"Sprint v{sprint.__version__} by iiPython", "yellow"))
-print()
 
 # Initialization
 args = sys.argv[1:]
 if not args:
-    path = input("File path: ")
+
+    # Live interpreter
+    print(colored("Live interpreter activated.", "yellow"))
+    print()
+
+    while True:
+        cmd = input(colored(">>> ", "green"))
+
+        # Run our command
+        parser = SprintParser(cmd, "<internal>")
+        parser.execute()
 
 else:
     path = args[0]
 
 path = path.replace("\\", "/")  # Fix for windows
+print()
 
 # Load raw data
 if not exists(path):

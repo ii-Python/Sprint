@@ -16,14 +16,22 @@ class Logger(object):
         self.filename = filename
         self.nofile = nofile
 
-    def error(self, lineNum, errType, errMessage):
+    def error(self, lineNum, errType, errMessage = None):
+
+        if not errMessage:
+            errMessage = errType
+            errType = lineNum
 
         if not self.nofile:
             errMessage = f"{self.filename}:{lineNum} {errMessage}"
 
         error(errType, errMessage)
 
-    def warn(self, lineNum, warnType, warnMessage):
+    def warn(self, lineNum, warnType, warnMessage = None):
+
+        if not warnMessage:
+            warnMessage = warnType
+            warnType = lineNum
 
         if not self.nofile:
             warnMessage = f"{self.filename}:{lineNum} {warnMessage}"

@@ -63,8 +63,7 @@ class Executer(object):
 
         except Exception as err:
             self.core.flogger.error(line, "ExecutionError", f"\nAn internal command error occured:\n{err}")
-      
+
         except KeyboardInterrupt:
             self.core.flogger.error(line, "ExecutionError", "Killed with CTRL+C, have a nice day.")
-            
             exit()
