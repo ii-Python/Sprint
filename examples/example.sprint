@@ -1,0 +1,22 @@
+write "Hello, world!"
+write "This is a sprint application, ran by Python."
+
+wait 3
+write
+write "Sprint is an incredibly simple application."
+write "It is easy to incorporate and is meant to be powerful."
+
+write
+wait 3
+
+write "[press any key to continue]"
+set key keypress
+
+clear
+write "Thank you for pressing a key."
+
+wait 2
+write "This application will now exit."
+wait 1
+
+quit 0
