@@ -89,6 +89,28 @@ class SprintParser(object):
 
         return line
 
+    def convert_datatype(self, data):
+
+        # Try and convert to an integer
+        try:
+            data = int(data)
+        except ValueError:
+
+            # Try it as a float?
+            try:
+                data = float(data)
+            except ValueError:
+                pass
+
+            # Perhaps we can turn this into a boolean
+            if data == "true":
+                data = True
+            elif data == "false":
+                data = False
+
+        # Should be either a string, integer, or boolean
+        return data
+
     def execute(self):
 
         """Executes the sprint data initialized"""
@@ -127,7 +149,7 @@ class SprintParser(object):
                 else:
 
                     # Normal argument
-                    arguments.append(arg)
+                    arguments.append(self.convert_datatype(arg))
 
             elif arg.endswith("\""):
 
@@ -156,7 +178,7 @@ class SprintParser(object):
         for argument in arguments:
 
             # Check for a flag
-            if argument.startswith("--"):
+            if isinstance(argument, str) and argument.startswith("--"):
                 argument = argument[2:]
 
                 # Check for a value
