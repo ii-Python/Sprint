@@ -1,4 +1,5 @@
 # Modules
+import os
 import sprint
 import platform
 
@@ -11,8 +12,13 @@ print()
 parser = sprint.SprintParser()
 while True:
 
+    # Set our path
+    path = os.getcwd()
+    path = path.replace(os.getenv("HOME"), "~")
+
+    # Execute command
     try:
-        cmd = input(sprint.colored("Sprint >>> ", "green"))
+        cmd = input(sprint.colored(f"Sprint@{path} >>> ", "green"))
 
     except KeyboardInterrupt:
         print()  # Stop weird line break issues
