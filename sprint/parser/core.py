@@ -194,7 +194,7 @@ class SprintParser(object):
                     if key in formatted_args["vals"]:
                         return error("ArgumentError", f"Key '{key}' is already assigned to.")
 
-                    formatted_args["vals"][key] = value
+                    formatted_args["vals"][key] = self.convert_datatype(value)
 
                 else:
 
