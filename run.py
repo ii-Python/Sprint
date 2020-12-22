@@ -8,6 +8,7 @@ print(sprint.colored(f"Python version {platform.python_version()}, running on {p
 print()
 
 # Main loop
+parser = sprint.SprintParser()
 while True:
 
     try:
@@ -18,5 +19,4 @@ while True:
         continue
 
     # Run our command
-    parser = sprint.SprintParser(cmd)
-    parser.execute()
+    parser.execute(cmd)

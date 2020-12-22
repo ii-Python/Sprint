@@ -22,9 +22,7 @@ Storage.globals = generate_globals()
 # Sprint parser
 class SprintParser(object):
 
-    def __init__(self, data):
-        self.data = data
-
+    def __init__(self):
         self.commands = self.load_commands()
         self.executer = Executer(self, self.commands)
 
@@ -111,12 +109,9 @@ class SprintParser(object):
         # Should be either a string, integer, or boolean
         return data
 
-    def execute(self):
+    def execute(self, command):
 
         """Executes the sprint data initialized"""
-
-        # Load our command
-        command = self.data
 
         # Reinitialize globals
         Storage.globals = generate_globals() | Storage.globals
