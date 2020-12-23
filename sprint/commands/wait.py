@@ -18,4 +18,16 @@ class Wait(BaseCommand):
 
             else:
                 # Not a valid integer/float
-                error("ArgumentError", f"Invalid value for wait: '{arg}'.")
+                return error("ArgumentError", f"Invalid value for wait: '{arg}'.")
+
+        # Check for another delay
+        delay = 0
+        if "delay" in arguments["vals"]:
+            delay = arguments["vals"]["delay"]
+
+            if not isinstance(delay, (int, float)):
+                # Not a valid integer/float
+                return error("ArgumentError", f"Invalid value for wait: '{arg}'.")
+
+        if delay > 0:
+            sleep(delay)

@@ -1,33 +1,36 @@
-# Sprint
-### The command shell written in Python
+# ⚡ Sprint
+## Super-minimal command interpreter written in Python
 ---
 
-**Please note:** I realize this is not a scripting language **or** integrated shell, this is more of a project I came up with during quarantine and decided to make. It's written completely in Python meaning it has absolutely no access to lower-level interfaces and has limited capabilities.
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://github.com/ii-Python/Sprint/graphs/commit-activity) [![Ask Me Anything !](https://img.shields.io/badge/Ask%20me-anything-1abc9c.svg)](https://github.com/ii-Python) [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/) [![GitHub license](https://img.shields.io/github/license/ii-Python/Sprint.svg)](https://github.com/ii-Python/Sprint/blob/master/LICENSE) [![GitHub release](https://img.shields.io/github/release/ii-Python/Sprint.svg)](https://github.com/ii-Python/Sprint/releases) [![Incredibly Small](https://badge-size.herokuapp.com/ii-Python/Sprint/master/sprint/parser/core.py)](https://github.com/ii-Python/Sprint/blob/master/sprint/parser/core.py) [![Open Source? Yes!](https://badgen.net/badge/Open%20Source%20%3F/Yes%21/blue?icon=github)](https://opensource.org/)
 
+## 📘 Explanation
+Sprint is a command interpreter similiar in style to bash or the Windows command prompt. It is made in Python, relies on as few third-party modules as possible, and provides the essential commands required.
 
-It's also worth noting this is still in alpha, lots of bugs are likely to occur and there is no finished functionality that is going to stay for long. Sprint also relies completely on third-party Python libraries since I'm not planning on anybody else using this or having to deal with cross-compatibility.
+⚠️ **Please note:** Sprint is still in alpha, bugs are extremely likely to occur!
+
+## 💽 Installation
+When installing Sprint, it is highly recommended to use git as it makes updating and version control much easier.
+
+Below is a cross-platform method of installing Sprint:
+  - Make sure you have git installed and added to PATH (https://git-scm.org)
+  - Ensure you have Python **3.9+**, previous versions **WILL NOT WORK!**
+  - Clone the repository using `git clone https://github.com/ii-Python/Sprint.git`
+  - Move into the directory using `cd Sprint`
+  - Install the required dependencies using `python3 -m pip install -U -r reqs.txt`
+
+For more information on using sprint, continue reading.
+
+## ⌨️ Executing Sprint
+Starting sprint can be done using `python3 run.py [options]`.
+
+Following execution, you should see the sprint interpreter.
+From here you can execute all of the provided commands inside of the `sprint/commands` directory as well as create your own by following the documentation.
+
+## 🔗 Links
+Github page - https://github.com/ii-Python/Sprint
+Trello board - https://trello.com/b/5QbmFiUu/sprint
+Minimistic website - https://iipython.cf/sprint
 
 ---
-
-## Installation
-Installing Sprint is just like installing any other software, use git.
-
-**Recommended Method:**
-```
-git clone https://github.com/ii-Python/Sprint
-cd Sprint
-
-python3 -m pip install -r reqs.txt
-```
-
-**Running:**
-```
-run.py [path]
-```
-
-## Explanation
-Sprint is a Python-based script that is supposed to mimic a command shell (ex. bash). Everything is done inside of its "runtime" which includes loading commands and executing their matched functions.
-
-Sprint has multiple error classes similiar to Python such as `RuntimeError`, `ReadError`, `PermissionError`, etc. The error format is `[ErrorType] Error message here`. If the error occurs from within a file, the error message will also contain the filename and the line number.
-
-The amount of commands and functionality is limited, but it still has a few features including `write`, `wait`, `clear`, and more. Later on I might make a full-on documentation for this but that depends on if I have time to continue working on this project.
+© Copyright 2020, iiPython. See LICENSE for more information.
