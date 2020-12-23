@@ -134,6 +134,9 @@ class SprintParser(object):
         if not command:
             return
 
+        elif command.startswith(";"):
+            return  # Ignore comments
+
         # Format line with globals
         for glob in Storage.globals:
             command = command.replace(f"%{glob}", Storage.globals[glob])
@@ -151,8 +154,14 @@ class SprintParser(object):
 
                 # Is this the start of a string?
                 if arg.startswith("\""):
-                    in_string = True
-                    string_data += arg[1:] + " "
+
+                    # Fix strings with no spaces
+                    if not arg.endswith("\""):
+                        in_string = True
+                        string_data += arg[1:] + " "
+
+                    else:
+                        arguments.append(arg[1:][:-1])
 
                 else:
 
@@ -185,6 +194,13 @@ class SprintParser(object):
 
         for argument in arguments:
 
+            # Check for comments
+            if isinstance(argument, str) and argument.startswith(";"):
+
+                # Ensure we aren't in a string
+                if "\"" + argument + "\"" not in args:
+                    break
+
             # Check for a flag
             if isinstance(argument, str) and argument.startswith("--"):
                 argument = argument[2:]
@@ -211,9 +227,10 @@ class SprintParser(object):
 
             else:
 
-                # Format this argument
-                for esc in self.escapes:
-                    argument = argument.replace(f"\\{esc}", self.escapes[esc])
+                # Format this argument (strings only)
+                if isinstance(argument, str):
+                    for esc in self.escapes:
+                        argument = argument.replace(f"\\{esc}", self.escapes[esc])
 
                 # Normal positional argument
                 formatted_args["pos"].append(argument)
