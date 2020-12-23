@@ -28,9 +28,9 @@ Following execution, you should see the sprint interpreter.
 From here you can execute all of the provided commands inside of the `sprint/commands` directory as well as create your own by following the documentation.
 
 ## 🔗 Links
-Github page - https://github.com/ii-Python/Sprint
-Trello board - https://trello.com/b/5QbmFiUu/sprint
-Minimistic website - https://iipython.cf/sprint
+- Github page - https://github.com/ii-Python/Sprint
+- Trello board - https://trello.com/b/5QbmFiUu/sprint
+- Minimistic website - https://iipython.cf/sprint
 
 ---
 © Copyright 2020, iiPython. See LICENSE for more information.
