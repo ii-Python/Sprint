@@ -1,0 +1,15 @@
+;sprint-file
+
+; Nice writing
+write "Hello, world!"
+write "This is an example file written in Sprint which just prints text to the screen."
+
+; Part 2 because why not
+wait 2
+
+write
+write "That was a two second delay."
+write "The script will now exit in 5 seconds..."
+
+; Exit
+wait 5  ; No reason to quit instantly
