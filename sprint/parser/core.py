@@ -26,6 +26,12 @@ class SprintParser(object):
         self.commands = self.load_commands()
         self.executer = Executer(self, self.commands)
 
+        self.escapes = {
+            "q": "\"",
+            "t": "\t",
+            "n": "\n"
+        }
+
     def load_commands(self, directory = "sprint/commands"):
 
         # Setup commands
@@ -195,6 +201,10 @@ class SprintParser(object):
                     formatted_args["flags"].append(argument)
 
             else:
+
+                # Format this argument
+                for esc in self.escapes:
+                    argument = argument.replace(f"\\{esc}", self.escapes[esc])
 
                 # Normal positional argument
                 formatted_args["pos"].append(argument)
