@@ -11,3 +11,6 @@ colors = {
 # Colored function
 def colored(text, color):
     return colors[color] + text + colors["reset"]
+
+def color(color):
+    return colors[color]

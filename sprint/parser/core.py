@@ -6,11 +6,12 @@ import importlib
 from os import listdir
 
 from os.path import exists
+from ..utils.colors import color
+
 from ..utils.logging import error
-
 from .runtime.exec import Executer
-from ..utils.bases import BaseCommand
 
+from ..utils.bases import BaseCommand
 from .runtime.globals import generate_globals
 
 # Storage object
@@ -35,7 +36,17 @@ class SprintParser(object):
         self.escapes = {
             "q": "\"",
             "t": "\t",
-            "n": "\n"
+            "n": "\n",
+
+            # Color escape codes
+            "cr": color("red"),
+            "cg": color("green"),
+            "cc": color("cyan"),
+            "cb": color("blue"),
+            "cy": color("yellow"),
+
+            # ASCII reset code
+            "r": color("reset")
         }
 
         # Setup our executer
