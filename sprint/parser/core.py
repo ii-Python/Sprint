@@ -18,6 +18,12 @@ class Storage:
     pass
 
 Storage.globals = generate_globals()
+Storage.functions = {}
+
+# This will allow us to execute commands
+# from within other commands. Primarily used
+# by the func command to execute functions.
+Storage.execute = None
 
 # Sprint parser
 class SprintParser(object):
@@ -31,6 +37,9 @@ class SprintParser(object):
             "t": "\t",
             "n": "\n"
         }
+
+        # Setup our executer
+        Storage.execute = self.execute
 
     def load_commands(self, directory = "sprint/commands"):
 
