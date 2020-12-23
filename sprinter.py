@@ -3,7 +3,9 @@
 # Modules
 import os
 import sprint
+
 import platform
+from os.path import isfile
 
 # Credit message
 print(sprint.colored(f"Sprint v{sprint.__version__} by iiPython", "yellow"))
@@ -40,6 +42,27 @@ while True:
     except KeyboardInterrupt:
         print()  # Stop weird line break issues
         continue
+
+    # Support for running files
+    if isfile(cmd):
+
+        # Load our lines
+        try:
+            lines = open(cmd, "r").read().split("\n")
+
+        except PermissionError:
+            print(sprint.colored("Missing permissions to read from file.", "red"))
+            continue
+
+        # Check for sprint
+        if lines[0] == ";sprint-file":
+
+            # Execute the file
+            for line in lines:
+                parser.execute(line)
+
+            # Make sure to not execute the filename as a command
+            continue
 
     # Run our command
     parser.execute(cmd)

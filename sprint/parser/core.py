@@ -194,6 +194,10 @@ class SprintParser(object):
 
         for argument in arguments:
 
+            # Prevent issues with multiple spaces
+            if not argument:
+                continue
+
             # Check for comments
             if isinstance(argument, str) and argument.startswith(";"):
 
