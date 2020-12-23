@@ -67,4 +67,4 @@ The arguments provided are a dictionary containing the following:
 }
 ```
 
-For more information on the provided arguments, it is recommended to follow up this document with `ARGUMENTS.md`.
+For more information on the provided arguments, it is recommended to follow up this document with `SYNTAX.md`.
