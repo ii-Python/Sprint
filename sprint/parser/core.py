@@ -9,8 +9,8 @@ from os.path import exists
 from ..utils.logging import error
 
 from .runtime.exec import Executer
-
 from ..utils.bases import BaseCommand
+
 from .runtime.globals import generate_globals
 
 # Storage object
@@ -33,7 +33,7 @@ class SprintParser(object):
 
         # Check directory existance
         if not exists(directory):
-            self.error("FileError", "The command directory could not be found.")
+            error("FileError", "The command directory could not be found.")
 
         # Locate all of our commands
         for file in listdir(directory):
@@ -111,21 +111,19 @@ class SprintParser(object):
 
     def execute(self, command):
 
-        """Executes the sprint data initialized"""
-
         # Reinitialize globals
         Storage.globals = generate_globals() | Storage.globals
-
-        # Format line with globals
-        for glob in Storage.globals:
-            command = command.replace(f"%{glob}", Storage.globals[glob])
 
         # Ignore whitespace
         command = self.remove_whitespace(command)
         if not command:
             return
 
-        # Load our information
+        # Format line with globals
+        for glob in Storage.globals:
+            command = command.replace(f"%{glob}", Storage.globals[glob])
+
+        # Load our arguments
         args = command.split(" ")
         arguments = []
 
