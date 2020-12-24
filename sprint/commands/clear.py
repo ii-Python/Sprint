@@ -17,4 +17,4 @@ class Clear(BaseCommand):
             command = "cls"
 
         # Execute
-        subprocess.run([command])
+        subprocess.run([command], shell = True)

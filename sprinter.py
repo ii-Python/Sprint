@@ -4,8 +4,10 @@
 import os
 import sprint
 
+import colorama
 import platform
-from os.path import isfile
+
+from os.path import isfile, expanduser
 
 # Credit message
 print(sprint.colored(f"Sprint v{sprint.__version__} by iiPython", "yellow"))
@@ -17,7 +19,7 @@ def get_command(indent = 0):
 
     # Set our path
     path = os.getcwd()
-    path = path.replace(os.getenv("HOME"), "~")
+    path = path.replace(os.getenv("HOME", expanduser("~")), "~")
 
     # Fetch our command
     command = input(sprint.colored(f"{path} >>> {' ' * indent}", "green"))
