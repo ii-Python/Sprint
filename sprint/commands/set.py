@@ -36,7 +36,7 @@ class Set(BaseCommand):
                 if not value:
                     return
 
-                values[key] = self.core.parser.convert_datatype(value, add_quotes = True)
+                values[key] = self.core.parser.convert_datatype(value)
 
             except IndexError:
                 return error("ArgumentError", "Missing required values for set statement.")

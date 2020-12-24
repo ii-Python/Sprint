@@ -34,7 +34,7 @@ class SprintParser(object):
             "n": "\n",
 
             # Character escapes
-            "c": ":",
+            "cl": ":",
 
             # Color escape codes
             "cr": color("red"),

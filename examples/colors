@@ -1,0 +1,16 @@
+;sprint-file
+
+write "\cr \\ This is some red text! \\ \r"  ; Make sure you end it with \r in order to reset the colors
+write "\cb \\ Perhaps some blue text? \\ \r"
+
+write
+
+write "\cy \\ Yellow is also supported. \\ \r"
+
+; Most sprint colors can be done with the escape sequence `\cFIRST LETTER`
+; So, for example, yellow would be \cy, red would be \cr, and blue would be \cb.
+; It's important to use \r when you are done to reset the colors.
+
+; Slightly hacky method of making rainbow text
+write
+write "\crR\cga\cci\cbn\cyb\cro\cgw \ccT\cbe\cyx\crt\cg!\r"
