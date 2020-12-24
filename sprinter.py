@@ -10,6 +10,8 @@ import platform
 from os.path import isfile, expanduser
 
 # Credit message
+colorama.init()  # Fix windows colors
+
 print(sprint.colored(f"Sprint v{sprint.__version__} by iiPython", "yellow"))
 print(sprint.colored(f"Python version {platform.python_version()}, running on {platform.system()}", "yellow"))
 print()
