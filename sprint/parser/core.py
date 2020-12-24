@@ -21,11 +21,6 @@ class Storage:
 Storage.globals = generate_globals()
 Storage.functions = {}
 
-# This will allow us to execute commands
-# from within other commands. Primarily used
-# by the func command to execute functions.
-Storage.execute = None
-
 # Sprint parser
 class SprintParser(object):
 
@@ -53,7 +48,8 @@ class SprintParser(object):
             " \\\ ": ""  # noqa: W605
         }
 
-        # Setup our executer
+        # Setup additional storage properties
+        Storage.parser = self
         Storage.execute = self.execute
 
     def load_commands(self, directory = "sprint/commands"):
@@ -117,7 +113,7 @@ class SprintParser(object):
 
         return line
 
-    def convert_datatype(self, data):
+    def convert_datatype(self, data, add_quotes = False):
 
         # Try and convert to an integer
         try:
@@ -135,6 +131,10 @@ class SprintParser(object):
                 data = True
             elif data == "false":
                 data = False
+
+        # Proper string support
+        if isinstance(data, str) and add_quotes:
+            data = f"\"{data}\""
 
         # Should be either a string, integer/float, or boolean
         return data
@@ -156,6 +156,7 @@ class SprintParser(object):
         for glob in Storage.globals:
             command = command.replace(f"%{glob}", Storage.globals[glob])
 
+        print(command)
         # Load our arguments
         args = command.split(" ")
         arguments = []
@@ -209,7 +210,7 @@ class SprintParser(object):
             "flags": []
         }
 
-        base = arguments[0]
+        base = arguments[0].lower()  # Calling .lower() to add capital support
         arguments = arguments[1:]
 
         for argument in arguments:
@@ -254,11 +255,13 @@ class SprintParser(object):
                 # Format this argument (strings only)
                 if isinstance(argument, str):
 
-                    for esc in self.escapes:
-                        argument = argument.replace(f"\\{esc}", self.escapes[esc])
+                    # Ensure this isn't the set command
+                    if base != "set":
+                        for esc in self.escapes:
+                            argument = argument.replace(f"\\{esc}", self.escapes[esc])
 
-                    for rep in self.replacements:
-                        argument = argument.replace(rep, self.replacements[rep])
+                        for rep in self.replacements:
+                            argument = argument.replace(rep, self.replacements[rep])
 
                 # Normal positional argument
                 formatted_args["pos"].append(argument)

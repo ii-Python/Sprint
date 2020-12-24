@@ -1,4 +1,7 @@
 # Modules
+import requests
+from readchar import readkey
+
 from ..utils.logging import error
 from ..utils.bases import BaseCommand
 
@@ -21,7 +24,7 @@ class Set(BaseCommand):
                 key = vals[0]
                 value = vals[1]
 
-                values[key] = value
+                values[key] = self.core.parser.convert_datatype(value, add_quotes = True)
 
             except IndexError:
                 return error("ArgumentError", "Missing required values for set statement.")
