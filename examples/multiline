@@ -1,0 +1,13 @@
+;sprint-file
+
+write "Hello, world!" \
+    "\cyTesting for line 2.\r" \
+    "\cgTesting for line 3.\r"
+
+write "This is not a multiple line."
+
+write "But the following is:" \
+    "  \ccLine 2.\r" \
+        "    \cbLine 3.\r" \
+
+        "      \crLastly, line 4.\r"

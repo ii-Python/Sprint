@@ -48,6 +48,10 @@ class SprintParser(object):
             # ASCII reset code
             "r": color("reset")
         }
+        self.replacements = {
+            # Blank character
+            " \\\ ": ""  # noqa: W605
+        }
 
         # Setup our executer
         Storage.execute = self.execute
@@ -132,7 +136,7 @@ class SprintParser(object):
             elif data == "false":
                 data = False
 
-        # Should be either a string, integer, or boolean
+        # Should be either a string, integer/float, or boolean
         return data
 
     def execute(self, command):
@@ -158,40 +162,45 @@ class SprintParser(object):
 
         in_string = False
         string_data = ""
+
         for arg in args:
 
             # Check if we aren't in a string
             if not in_string:
 
-                # Is this the start of a string?
+                # Check if this is the start of one
                 if arg.startswith("\""):
 
-                    # Fix strings with no spaces
-                    if not arg.endswith("\""):
+                    # Make sure this isn't a completed string
+                    if not arg.endswith("\"") or len(arg) == 1:
                         in_string = True
-                        string_data += arg[1:] + " "
+                        string_data = arg[1:] + " "
 
                     else:
+
+                        # Completed already
                         arguments.append(arg[1:][:-1])
 
                 else:
 
-                    # Normal argument
+                    # This is not the start of a new string
                     arguments.append(self.convert_datatype(arg))
-
-            elif arg.endswith("\""):
-
-                # The end of a string
-                in_string = False
-                string_data += arg[:-1]
-
-                arguments.append(string_data)
-                string_data = ""
 
             else:
 
-                # In the middle of a string
-                string_data += arg + " "
+                # Check if the string is over
+                if arg.endswith("\""):
+
+                    in_string = False
+                    string_data += arg[:-1]
+
+                    arguments.append(string_data)
+                    string_data = ""
+
+                else:
+
+                    # This is the middle of a string
+                    string_data += arg + " "
 
         # Process our arguments
         formatted_args = {
@@ -244,8 +253,12 @@ class SprintParser(object):
 
                 # Format this argument (strings only)
                 if isinstance(argument, str):
+
                     for esc in self.escapes:
                         argument = argument.replace(f"\\{esc}", self.escapes[esc])
+
+                    for rep in self.replacements:
+                        argument = argument.replace(rep, self.replacements[rep])
 
                 # Normal positional argument
                 formatted_args["pos"].append(argument)

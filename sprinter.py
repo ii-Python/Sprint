@@ -48,16 +48,77 @@ while True:
 
         # Load our lines
         try:
-            lines = open(cmd, "r").read().split("\n")
+            raw_lines = open(cmd, "r").read().split("\n")
 
         except PermissionError:
             print(sprint.colored("Missing permissions to read from file.", "red"))
             continue
 
         # Check for sprint
-        if lines[0] == ";sprint-file":
+        if raw_lines[0] == ";sprint-file":
 
-            # Execute the file
+            # Remove all whitespace BEFORE parsing
+            no_whitespaced_lines = []
+            for line in raw_lines:
+
+                # Ignore blank lines
+                line = parser.remove_whitespace(line)
+                if not line:
+                    continue
+
+                # Append this to our line data
+                no_whitespaced_lines.append(line)
+
+            # Parse the file
+            multiline = False
+            complete_line = None
+
+            line_index = 0
+            lines = []
+
+            for line in no_whitespaced_lines:
+
+                # Ignore blank lines
+                line = parser.remove_whitespace(line)
+                if not line:
+                    continue
+
+                # Check if this declares another line
+                if line.endswith("\\") and not multiline:
+                    multiline = True
+                    complete_line = line[:-1]
+
+                elif multiline:
+
+                    # Check if this isn't really a multiple line
+                    if not no_whitespaced_lines[line_index - 1].endswith("\\"):
+                        multiline = False
+
+                    # Remove the backslash (if exists)
+                    if line.endswith("\\"):
+                        line = line[:-1]
+
+                    # Joining together
+                    if multiline:
+                        complete_line += " " + line
+
+                    else:
+
+                        # Check for our other line
+                        if complete_line != "":
+                            lines.append(complete_line)
+                            lines.append(line)
+
+                            # Reset our completed line
+                            complete_line = ""
+
+                else:
+                    lines.append(line)
+
+                # Increase our index
+                line_index += 1
+
+            # Execute our lines
             for line in lines:
                 parser.execute(line)
 
