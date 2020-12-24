@@ -33,6 +33,9 @@ class SprintParser(object):
             "t": "\t",
             "n": "\n",
 
+            # Character escapes
+            "c": ":",
+
             # Color escape codes
             "cr": color("red"),
             "cg": color("green"),
@@ -84,9 +87,15 @@ class SprintParser(object):
                         init = _class(Storage)
 
                         # Locate the function
+                        try:
+                            func_name = init.func_name
+
+                        except AttributeError:
+                            func_name = file[:-3].lower()
+
                         func = None
                         for n, f in inspect.getmembers(init, inspect.ismethod):
-                            if n == file[:-3].lower():  # Check this is the command name
+                            if n == func_name:  # Check this is the command name
                                 func = f
 
                         if func is None:
@@ -139,6 +148,20 @@ class SprintParser(object):
         # Should be either a string, integer/float, or boolean
         return data
 
+    def process_escapes(self, argument):
+
+        for esc in self.escapes:
+            argument = argument.replace(f"\\{esc}", self.escapes[esc])
+
+        return argument
+
+    def process_replacements(self, argument):
+
+        for rep in self.replacements:
+            argument = argument.replace(rep, self.replacements[rep])
+
+        return argument
+
     def execute(self, command):
 
         # Reinitialize globals
@@ -156,7 +179,6 @@ class SprintParser(object):
         for glob in Storage.globals:
             command = command.replace(f"%{glob}", Storage.globals[glob])
 
-        print(command)
         # Load our arguments
         args = command.split(" ")
         arguments = []
@@ -257,11 +279,8 @@ class SprintParser(object):
 
                     # Ensure this isn't the set command
                     if base != "set":
-                        for esc in self.escapes:
-                            argument = argument.replace(f"\\{esc}", self.escapes[esc])
-
-                        for rep in self.replacements:
-                            argument = argument.replace(rep, self.replacements[rep])
+                        argument = self.process_escapes(argument)
+                        argument = self.process_replacements(argument)
 
                 # Normal positional argument
                 formatted_args["pos"].append(argument)

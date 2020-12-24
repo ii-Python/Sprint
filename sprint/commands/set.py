@@ -1,7 +1,5 @@
 # Modules
-import requests
 from readchar import readkey
-
 from ..utils.logging import error
 from ..utils.bases import BaseCommand
 
@@ -10,8 +8,18 @@ class Set(BaseCommand):
 
     def __init__(self, core):
         self.core = core
+        self.func_name = "set_"
 
-    def set(self, arguments):
+    def process_value(self, value):
+
+        # Check for custom values
+        if value == "keypress":
+            value = readkey()
+
+        # Return to process
+        return value
+
+    def set_(self, arguments):
 
         # Locate our values
         values = arguments["vals"]
@@ -20,9 +28,13 @@ class Set(BaseCommand):
 
             try:
                 vals = arguments["pos"]
-
                 key = vals[0]
-                value = vals[1]
+
+                value = self.process_value(vals[1])
+
+                # Exceptions are handled inside of the function
+                if not value:
+                    return
 
                 values[key] = self.core.parser.convert_datatype(value, add_quotes = True)
 
