@@ -16,6 +16,9 @@ class Set(BaseCommand):
         if value == "keypress":
             value = readkey()
 
+        elif value == "input":
+            value = input()
+
         # Return to process
         return value
 

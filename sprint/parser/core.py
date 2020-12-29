@@ -232,7 +232,7 @@ class SprintParser(object):
             "flags": []
         }
 
-        base = arguments[0].lower()  # Calling .lower() to add capital support
+        base = str(arguments[0]).lower()  # Calling .lower() to add capital support
         arguments = arguments[1:]
 
         for argument in arguments:
